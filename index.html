@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fact Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        #fact-list {
+            margin-top: 20px;
+        }
+        .fact {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>LLM Fact Generator</h1>
+    <p>Choose a title and generate 5 fun facts!</p>
+    <input type="text" id="title" placeholder="Enter a title (e.g., Engineer)">
+    <button onclick="generateFacts()">Generate Facts</button>
+
+    <div id="fact-list"></div>
+
+    <script>
+        async function generateFacts() {
+            const title = document.getElementById('title').value.trim();
+
+            if (!title) {
+                alert('Please enter a title.');
+                return;
+            }
+
+            // Simulating LLM response
+            const response = await fetch('https://api.example.com/generate-facts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title })
+            });
+
+            const data = await response.json();
+            const facts = data.facts;
+
+            const factList = document.getElementById('fact-list');
+            factList.innerHTML = '';
+
+            facts.forEach(fact => {
+                const factDiv = document.createElement('div');
+                factDiv.className = 'fact';
+                factDiv.textContent = fact;
+                factList.appendChild(factDiv);
+            });
+        }
+    </script>
+</body>
+</html>
